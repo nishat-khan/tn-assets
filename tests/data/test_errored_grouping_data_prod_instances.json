@@ -9,7 +9,7 @@
                       "operator": "AND",
                       "conditions": [
                           {"field": "type", "operator": "==", "value": "ec2-instance"},
-                          {"field": "tags", "operator": "contains", "key": "env", "value": "prod"}
+                          {"field": "tags", "operator": "==", "key": "env", "value": "stage"}
                       ]
                   },
                   {"field": "name", "operator": "contains", "value": "prod"}
