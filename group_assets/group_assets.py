@@ -4,7 +4,7 @@ from typing import List, Union, Dict, Any
 from schema import GroupingRequest, NestedCondition, Condition
 from util.logger import setup_logger
 from util.utils import get_user_id_from_token, fetch_assets_for_user
-from group_assets_helper import apply_conditions
+from .group_assets_helper import apply_conditions
 
 
 def create_app(db):
