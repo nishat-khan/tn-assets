@@ -32,8 +32,12 @@ def test_apply_grouping_rules(client, populate_mock_db, load_grouping_data_prod_
     user1_assets = fetch_assets_for_user(populate_mock_db, "user1")
     assert any(asset.group_name == "production-instances" for asset in user1_assets)
 
+
+#TODO: implement api with a check on semantically incorrect rules
+# example, production-instances shouldn't allow stage instances, for context check the json file.
 def test_apply_errored_grouping_rules(client, populate_mock_db, load_errored_grouping_data_prod_instances):
     response = client.post('/apply-grouping-rules', json=load_errored_grouping_data_prod_instances, headers={"Authorization": "token-user1"})
+    # sadly this will do as expected in the rules json and add both prod and stage instances as prod-instances
     assert response.status_code == 200
 
     # Check if the assets have been grouped correctly for user1
