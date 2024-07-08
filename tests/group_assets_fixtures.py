@@ -8,6 +8,10 @@ from schema import Asset
 from util.db_utils import MockAssetTable
 
 
+def get_file_path(file_name):
+    base_path = os.path.dirname(__file__)
+    return os.path.join(base_path, 'data', file_name)
+
 @pytest.fixture
 def client(populate_mock_db):
     app = create_app(populate_mock_db)
@@ -19,19 +23,18 @@ def client(populate_mock_db):
 
 @pytest.fixture
 def load_assets():
-    base_path = os.path.dirname(__file__)
-    file_path = os.path.join(base_path, 'data', 'assets.json')
+    file_path = get_file_path('assets.json')
     with open(file_path, 'r') as f:
         assets = json.load(f)
     return [Asset(**asset) for asset in assets]
 
 @pytest.fixture
 def load_grouping_data_prod_instances():
-    base_path = os.path.dirname(__file__)
-    file_path = os.path.join(base_path, 'data', 'test_grouping_data_prod_instances.json')
+    file_path = get_file_path('test_grouping_data_prod_instances.json')
     with open(file_path, 'r') as f:
         grouping_data = json.load(f)
     return grouping_data
+
 
 @pytest.fixture
 def load_errored_grouping_data_prod_instances():
@@ -41,14 +44,18 @@ def load_errored_grouping_data_prod_instances():
         grouping_data = json.load(f)
     return grouping_data
 
+
 @pytest.fixture
 def valid_simple_request():
-    with open('test_valid_simple_request.json') as f:
+    file_path = get_file_path('valid_simple_request.json')
+    with open(file_path) as f:
         return json.load(f)
+
 
 @pytest.fixture
 def valid_nested_request():
-    with open('test_valid_nested_request.json') as f:
+    file_path = get_file_path('test_valid_nested_request.json')
+    with open(file_path) as f:
         return json.load(f)
 
 
