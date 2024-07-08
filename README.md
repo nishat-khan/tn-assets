@@ -16,6 +16,9 @@ To deactivate it run,
 After activating .tnenv run,
 > pip install -r requirements.txt
 
+To check how the api is run and tested,
+![img.png](img.png)
+
 I marked group_assets as root in PyCharm. In production, the root would be the main backend handler 
 calling this API.
 

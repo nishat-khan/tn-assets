@@ -1,12 +1,4 @@
-from flask import g
-import json
-import os
-import pytest
-
-from group_assets.group_assets import create_app
-from schema import Asset
-from util.db_utils import MockAssetTable
-from tests.group_assets_fixtures import *
+from .group_assets_fixtures import *
 from util.utils import fetch_assets_for_user, validate_grouping_request
 
 
