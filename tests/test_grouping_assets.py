@@ -1,4 +1,3 @@
-# tests/test_grouping_assets.py
 from flask import g
 import json
 import os
