@@ -1,0 +1,20 @@
+{
+  "group_name": "production-instances",
+  "rules": [
+      {
+          "conditions": {
+              "operator": "OR",
+              "conditions": [
+                  {
+                      "operator": "AND",
+                      "conditions": [
+                          {"field": "type", "operator": "==", "value": "ec2-instance"},
+                          {"field": "tags", "operator": "contains", "key": "env", "value": "prod"}
+                      ]
+                  },
+                  {"field": "name", "operator": "contains", "value": "prod"}
+              ]
+          }
+      }
+  ]
+}

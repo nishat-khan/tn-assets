@@ -1,0 +1,20 @@
+[
+    {
+        "id": "1",
+        "name": "prod-server",
+        "type": "ec2-instance",
+        "tags": [{"key": "env", "value": "prod"}],
+        "cloud_account": {"id": "1", "name": "AWS"},
+        "owner_id": "user1",
+        "region": "us-west-1"
+    },
+    {
+        "id": "2",
+        "name": "stage-server",
+        "type": "ec2-instance",
+        "tags": [{"key": "env", "value": "stage"}],
+        "cloud_account": {"id": "2", "name": "AWS"},
+        "owner_id": "user2",
+        "region": "us-west-1"
+    }
+]
