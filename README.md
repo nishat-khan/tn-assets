@@ -21,7 +21,7 @@ Assumptions:
 - Any new key-value (not in tags) in Assets data model is optional for api backwards compatibility
 
 Design choices:
-- For local testing, user's aws credentials need to be passed in the api request.
+- For local testing I have mocked token_id, user's token id is used for authenticating it and to fetch its user_id
 In production, user's credentials can be authenticated (fetched) using API gateway service  
 - Single group vs multiple groups request in an api call 
 
