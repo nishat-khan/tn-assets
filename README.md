@@ -12,6 +12,9 @@ To deactivate it run,
 After activating .tnenv run,
 > pip install -r requirements.txt
 
+I marked group_assets as root in PyCharm. In production, the root would be the main backend handler 
+calling this API.
+
 Assumptions:
 - user_id = owner_id, this is used to filter assets for the user calling the api.
 - group_names are over-writable.
