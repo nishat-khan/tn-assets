@@ -10,6 +10,11 @@ from group_assets_helper import (
 
 
 def create_app(db):
+    """
+    Function to make sure mock db context is applied.
+    :param db:
+    :return:
+    """
     app = Flask(__name__)
     logger = setup_logger('group_assets_app')
 
