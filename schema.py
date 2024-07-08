@@ -52,14 +52,13 @@ class GroupingRequest(BaseModel):
     rules: List[Rule]
 
     @model_validator(mode='after')
-    def validate_rules(cls, values):
-        rules = values.get('rules', [])
-        for rule in rules:
+    def validate_rules(self) -> 'GroupingRequest':
+        for rule in self.rules:
             if isinstance(rule.conditions, NestedCondition):
-                cls.validate_nested_conditions(rule.conditions)
+                self.validate_nested_conditions(rule.conditions)
             else:
-                cls.validate_condition(rule.conditions)
-        return values
+                self.validate_condition(rule.conditions)
+        return self
 
     @classmethod
     def validate_nested_conditions(cls, nested_condition: NestedCondition):

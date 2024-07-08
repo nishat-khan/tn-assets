@@ -47,7 +47,7 @@ def load_errored_grouping_data_prod_instances():
 
 @pytest.fixture
 def valid_simple_request():
-    file_path = get_file_path('valid_simple_request.json')
+    file_path = get_file_path('test_valid_simple_request.json')
     with open(file_path) as f:
         return json.load(f)
 
