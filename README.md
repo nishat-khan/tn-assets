@@ -1,4 +1,8 @@
-The group assignment API handler
+The API handler for assigning a group to a caller's cloud assets based on rules provided.
+
+The api takes in JSON for rules provided by user and applies it on the assets of the user.
+The assets are fetched by confirming the user_id from the authentication token in the api header
+and retrieved from an Assets db_table having owner_id == user_id (assumption)
 
 First I created a virtual Python environment using
 > python3 -m venv .tnenv
