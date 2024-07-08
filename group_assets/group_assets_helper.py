@@ -63,11 +63,16 @@ def validate_conditions(conditions: Dict[str, Any]) -> bool:
 
 
 def apply_conditions(asset: Asset, conditions: Dict[str, Any]) -> bool:
-    """Implement logic to check if an asset matches the conditions"""
+    """Implement logic to check if an asset matches the conditions
+    Is extensible to add more operators.
+    """
+    # Todo: Add a condition to check if operator not in allowed_logical_operators list.
     if conditions["operator"] == "AND":
         return all(apply_conditions(asset, cond) for cond in conditions["conditions"])
     elif conditions["operator"] == "OR":
         return any(apply_conditions(asset, cond) for cond in conditions["conditions"])
+    elif conditions["operator"] == 'NOT':
+        return not any(apply_conditions(asset, cond) for cond in conditions["conditions"])
     else:
         field = conditions["field"]
         if field == "tags":

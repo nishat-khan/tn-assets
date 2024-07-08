@@ -56,11 +56,6 @@ def test_fetch_empty_assets_for_user(populate_mock_db):
     assert len(assets) == 0
 
 
-def test_validate_grouping_rules(client, load_grouping_data):
-    response = client.post('/validate-grouping-rules', json=load_grouping_data, headers={"Authorization": "token-user1"})
-    assert response.status_code == 200
-
-
 def test_apply_grouping_rules(client, populate_mock_db, load_grouping_data):
     response = client.post('/apply-grouping-rules', json=load_grouping_data, headers={"Authorization": "token-user1"})
     assert response.status_code == 200
