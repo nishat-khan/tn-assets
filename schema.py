@@ -1,5 +1,6 @@
-from pydantic import BaseModel
-from typing import List, Optional, Dict, Any
+from pydantic import BaseModel, Field, model_validator
+from typing import List, Union, Dict, Any
+from enum import Enum
 
 
 class Tag(BaseModel):
@@ -23,18 +24,61 @@ class Asset(BaseModel):
     group_name: str = None
 
 
+class Operator(str, Enum):
+    AND = "AND"
+    OR = "OR"
+    EQUALS = "=="
+    CONTAINS = "contains"
+
+
 class Condition(BaseModel):
-    operator: str
-    field: str = None
-    value: str = None
-    key: str = None
-    conditions: List[Any] = None
+    field: str
+    operator: Operator
+    value: str
+    key: str | None = None
+
+
+class NestedCondition(BaseModel):
+    operator: Operator
+    conditions: List[Union['NestedCondition', Condition]]
 
 
 class Rule(BaseModel):
-    conditions: Condition
+    conditions: Union[Condition, NestedCondition]
 
 
 class GroupingRequest(BaseModel):
     group_name: str
     rules: List[Rule]
+
+    @model_validator(mode='after')
+    def validate_rules(cls, values):
+        rules = values.get('rules', [])
+        for rule in rules:
+            if isinstance(rule.conditions, NestedCondition):
+                cls.validate_nested_conditions(rule.conditions)
+            else:
+                cls.validate_condition(rule.conditions)
+        return values
+
+    @classmethod
+    def validate_nested_conditions(cls, nested_condition: NestedCondition):
+        if nested_condition.operator not in [Operator.AND, Operator.OR]:
+            raise ValueError(f"Invalid operator for nested condition: {nested_condition.operator}")
+
+        for condition in nested_condition.conditions:
+            if isinstance(condition, NestedCondition):
+                cls.validate_nested_conditions(condition)
+            else:
+                cls.validate_condition(condition)
+
+    @staticmethod
+    def validate_condition(condition: Condition):
+        if condition.operator == Operator.CONTAINS:
+            if condition.field == "tags" and not condition.key:
+                raise ValueError("Key is required for tag contains operation")
+        elif condition.operator == Operator.EQUALS:
+            if condition.field == "tags" and not condition.key:
+                raise ValueError("Key is required for tag equals operation")
+        elif condition.operator not in [Operator.EQUALS, Operator.CONTAINS]:
+            raise ValueError(f"Invalid operator for condition: {condition.operator}")

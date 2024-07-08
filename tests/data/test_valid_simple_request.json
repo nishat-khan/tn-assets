@@ -1,0 +1,12 @@
+{
+    "group_name": "ec2-instances",
+    "rules": [
+        {
+            "conditions": {
+                "field": "type",
+                "operator": "==",
+                "value": "ec2-instance"
+            }
+        }
+    ]
+}

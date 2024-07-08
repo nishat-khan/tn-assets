@@ -1,5 +1,6 @@
 from flask import Flask, g, jsonify, request
 from pydantic import ValidationError
+from typing import List, Union, Dict, Any
 from schema import GroupingRequest
 from util.logger import setup_logger
 from util.utils import get_user_id_from_token, fetch_assets_for_user
@@ -26,8 +27,13 @@ def create_app(db):
         if 'db' not in g:
             set_db()
 
+
     @app.route('/apply-grouping-rules', methods=['POST'])
     def apply_grouping_rules():
+        """
+        API to fetch the user_id using token from Authorization and applies the grouping rules.
+        :return:
+        """
         token = request.headers.get('Authorization')
         if not token:
             logger.info('Authorization token is missing')
