@@ -1,11 +1,9 @@
-import json
-import os
-from flask import Flask, g, request, jsonify
+from flask import Flask, g, jsonify, request
 from pydantic import ValidationError
-from schema import Asset, GroupingRequest
+from schema import GroupingRequest
 from util.logger import setup_logger
 from util.utils import get_user_id_from_token, fetch_assets_for_user
-from group_assets.group_assets_helper import (
+from group_assets_helper import (
     apply_conditions,
     validate_conditions
 )
@@ -78,6 +76,12 @@ def create_app(db):
 
         try:
             user_assets = fetch_assets_for_user(g.db, user_id)
+
+            # Checking for edge case no assets returned
+            if not user_assets:
+                logger.info(f'No assets found for user {user_id}')
+                return jsonify({"error": "No assets found for the user"}), 404
+
             for asset in user_assets:
                 for rule in grouping_request.rules:
                     if apply_conditions(asset, rule.conditions.dict()):
@@ -91,9 +95,9 @@ def create_app(db):
 
     return app
 
-
-if __name__ == '__main__':
-    from util.utils import MockAssetTable
-    mock_db = MockAssetTable()
-    app = create_app(mock_db)
-    app.run(debug=True)
+# uncomment this if you wanna test the server on your end
+# if __name__ == '__main__':
+#     from util.utils import MockAssetTable
+#     mock_db = MockAssetTable()
+#     app = create_app(mock_db)
+#     app.run(debug=True)

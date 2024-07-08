@@ -4,10 +4,10 @@ import json
 import os
 import pytest
 
-from util.db_utils import MockAssetTable
-from util.utils import fetch_assets_for_user
 from group_assets.group_assets import create_app
 from schema import Asset
+from util.db_utils import MockAssetTable
+from util.utils import fetch_assets_for_user
 
 
 @pytest.fixture
@@ -48,6 +48,12 @@ def test_fetch_assets_for_user(populate_mock_db):
     assets = fetch_assets_for_user(populate_mock_db, user_id)
     assert len(assets) == 1
     assert assets[0].owner_id == user_id
+
+
+def test_fetch_empty_assets_for_user(populate_mock_db):
+    user_id = "user3"
+    assets = fetch_assets_for_user(populate_mock_db, user_id)
+    assert len(assets) == 0
 
 
 def test_validate_grouping_rules(client, load_grouping_data):

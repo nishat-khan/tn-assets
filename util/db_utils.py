@@ -1,12 +1,16 @@
+from schema import Asset
+
 
 class MockAssetTable:
     def __init__(self):
         self.assets = []
 
-    def add_asset(self, asset):
+    def add_asset(self, asset: Asset):
+        if not isinstance(asset, Asset):
+            raise ValueError("asset must be an instance of Asset")
         self.assets.append(asset)
 
-    def query(self, asset_class):
+    def query(self):
         class MockQuery:
             def __init__(self, assets):
                 self.assets = assets

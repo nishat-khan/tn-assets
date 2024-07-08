@@ -14,4 +14,4 @@ def get_user_id_from_token(token: str) -> str:
 
 def fetch_assets_for_user(db: MockAssetTable, user_id: str):
     """Fetches assets for a user."""
-    return db.query(Asset).filter(f'owner_id == "{user_id}"').all()
+    return db.query().filter(f'owner_id == "{user_id}"').all()
