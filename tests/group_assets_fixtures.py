@@ -9,6 +9,11 @@ from util.db_utils import MockAssetTable
 
 
 def get_file_path(file_name):
+    """
+    Quick way to fix import issues, ideally I would use more sophisticated way.
+    :param file_name:
+    :return:
+    """
     base_path = os.path.dirname(__file__)
     return os.path.join(base_path, 'data', file_name)
 
